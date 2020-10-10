@@ -1,0 +1,22 @@
+Main Site
+
+https://www.nhtsa.gov/data
+
+---
+
+Query Tool
+
+https://cdan.dot.gov/query
+
+---
+
+FTP Site
+
+https://www.nhtsa.gov/content/nhtsa-ftp
+
+---
+
+FARS API
+
+https://crashviewer.nhtsa.dot.gov/CrashAPI
+

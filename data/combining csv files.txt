@@ -1,0 +1,35 @@
+1) Fix the upper case file extensions...
+
+for f in *.CSV; do mv -- "$f" "${f%.CSV}.csv"; done
+
+----------------------------------------------------------
+
+
+1) Get Headers
+
+head -1 file1.csv > final.csv
+for filename in $(ls *.csv); do head -1 $filename > $filename; done
+
+
+#hokey, but works:
+for filename in $(ls *.csv); do head -1 $filename > /home/home/Desktop/DS504/data/CRSS/COMBINEDCRSS/$filename; done
+
+
+----------------------------------------------------------
+
+2) Get Rows
+
+
+ls -R |grep "\.csv$"
+
+for filename in $(ls file*.csv); do sed 1d $filename >> final.csv; done
+
+no works:
+
+for filename in $(ls -R |grep "\.csv$"); do sed 1d $filename >> $filename; done
+
+
+WORKS!
+run from each dir...
+
+for filename in $(ls *.csv); do sed 1d $filename >> /home/home/Desktop/DS504/data/CRSS/COMBINEDCRSS/$filename; done
