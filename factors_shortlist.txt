@@ -16,73 +16,82 @@ ACCIDENT FILE
 ---------------
 CASENUM
 STRATUM
-VE_TOTAL
 MONTH
-DAY_WEEK
-YEAR
-HOUR
-HARM_EV
-RELJCT1
-RELJCT2
+WKDY_IM
+LGTCON_IM
+EVENT1_IM
+
 TYP_INT
 REL_ROAD
 WRK_ZONE
-LGT_COND
-WEATHER
-WEATHER1
-WEATHER2
+
+WEATHER_IM
 CF1
 CF2
 CF3
 MAX_SEV
 SEV_ACC
-NO_INJ
-ALCOHOL
+ALCOHOL_IM
 REGION
 URBANICITY
 
 --
 CASENUM
 STRATUM, type of accident
-VE_TOTAL,Number of Total Motor Vehicles
+
 MONTH
-DAY_WEEK
-YEAR
-HOUR
-HARM_EV, First Harmful Event
-RELJCT1, Relation to Junction (location with respect to presence in junction or interchange areas)
-RELJCT2, Relation to Junction- Specific Location (if yes above, detail here)
+WKDY_IM
+
+LGTCON_IM, Light Condition
+HARM_EV, First Harmful Event (using imputed here EVENT1_IM)
+
 TYP_INT, Type of Intersection
 REL_ROAD, Relation to Trafficway (location of the crash on roadway)
 WRK_ZONE, Work Zone (Construction etc)
-LGT_COND, Light Condition
-WEATHER, Atmospheric Conditions
-WEATHER1
-WEATHER2
+
+WEATHER_IM, Imputed Atmospheric conditions
+
 CF1, Related Factors- Crash Level
 CF2
 CF3
+
 MAX_SEV, Maximum Injury Severity in Crash
 SEV_ACC
-NO_INJ, Number Injured in Crash 
-ALCOHOL, Alcohol Involved in Crash
+
+ALCOHOL_IM, Alcohol Involved in Crash
 REGION, Region of the Country
 URBANICITY, Urbanicity
+
+
+SKIP__NO_INJ, Number Injured in Crash 
+SKIP__HOUR_IM, Hour
+SKIP__RELJCT1, Relation to Junction (location with respect to presence in junction or interchange areas)
+SKIP__RELJCT2, Relation to Junction- Specific Location (if yes above, detail here)
+SKIP__MANCOLL - 
+SKIP__INT_HWY - State highway des.
+SKIP__PERVIT - Number of people in crash
+SKIP__PSU - Primary Sample Unit
+SKIP__PJ - police jurisdiction
+SKIP__PVH_INVL - Number of Parked/Working Vehicles
+SKIP__VEFORMS - Number of Motor Vehicles in Transport (MVIT)
+SKIP__WRK_ZONE
+SKIP__VE_TOTAL,Number of Total Motor Vehicles
 
 
 ---------------
 VEHICLE
 ---------------
 
-BODY_TYP
-MAKE
-MOD_YEAR
+BODY_TYPe
+OLD_CAR
 TRAV_SP
 SPEEDREL
+
 DR_SF1
 DR_SF2
 DR_SF3
 DR_SF4
+
 VALIGN
 VPROFILE
 VSURCOND
@@ -91,8 +100,6 @@ P_CRASH2
 
 --
 BODY_TYP, Body Type
-MAKE, Make
-MOD_YEAR, Model Year
 TRAV_SP, Speeding noted
 SPEEDREL, Speeding Related
 DR_SF1, Related Factors- Driver Level
@@ -103,22 +110,25 @@ VALIGN, Roadway Alignment (curve etc.)
 VPROFILE, Roadway Grade
 VSURCOND, Roadway Surface Condition
 P_CRASH1, Pre-Event Movement (Prior to Recognition of Critical Event) (best describes this vehicle's activity 	prior to the driver's realization of an impending critical event or just prior to impact)
-
 P_CRASH2, Critical Event- Precrash (attribute that best describes the critical event which made this crash imminent
 
+
+
+SKIP__MAKE, Make
+SKIP__MOD_YEAR, Model Year
 
 ---------------
 PERSON
 ---------------
 
-SEX
+SEX_IM
 AGE
 REST_USE
 REST_MIS
 DRUGS
 
 --
-SEX
+SEX_IM
 AGE (DONE JEFF)
 REST_USE, Restraint System/Helmet Use
 REST_MIS, Indication of Misuse of Restraint System/Helmet
