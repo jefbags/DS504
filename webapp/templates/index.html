@@ -1,0 +1,294 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<section class="content-section">
+
+    			<form name="predictForm" method="POST" action="/predict" onsubmit="return validateForm()">
+    				 <div class="form-group">
+
+    				 		<div class="row">
+
+                                <h1>Accident Safety Predictor</h1>
+
+    				 		<p> This project will predict the liklihood of a severe car accident given a variety of factors. The accuracy of prediction is approximately 80%.  Please enter the circumstances on the right, and click on the "Predict" button.
+                            </p>
+
+    				 		<h1>
+							  {% if label %} {{ label }} {% endif %}
+							</h1>
+
+							  <br>
+							  <button class="btn btn-lg btn-primary" type="submit">
+							  	Predict
+							  </button>
+
+                            </div>
+
+                     <div class="row">
+
+
+                    <div class="col-auto">
+
+                        <hr>
+                <p>Please select the factors of the accident.</p>
+                <label for="promo">Crash Related Factors</label><br>
+
+                 <!--  CRSS Codes: Dropdowns-->
+                <select name="cf" class="cf">
+                <option>3 Other Maintenance or Construction-Created Condition</option>
+                <option>5 Surface Under Water</option>
+                <option>7 Surface Washed Out (Caved in, Road Slippage)</option>
+                <option>13 Aggressive Driving/Road Rage by Non-Contact Vehicle Driver</option>
+                <option>14 Motor Vehicle Struck By Falling Cargo or Something That Came Loose From  or Something That Was Set in Motion By a Vehicle</option>
+                <option>15 Non-Occupant Struck By Falling Cargo, or Something Came Loose From or Something That Was Set In Motion By A Vehicle</option>
+                <option>16 Non-Occupant Struck Vehicle</option>
+                <option>17 Vehicle Set In Motion By Non-Driver</option>
+                <option>19 Recent Previous Crash Scene Nearby</option>
+                <option>20 Police-Pursuit-Involved</option>
+                <option>21 Within Designated School Zone</option>
+                <option>23 Indication of a Stalled/Disabled Vehicle</option>
+                <option>24 Unstabilized Situation Began and All Harmful Events Occurred Off of the Roadway</option>
+                <option>25 Toll Booth/Plaza Related</option>
+                <option>26 Backup Due to Prior Non-Recurring Incident</option>
+                <option>27 Backup Due to Prior Crash</option>
+                <option>28 Backup Due to Regular Congestion</option>
+                </select>
+
+                <p><small>Factors from Accident File = 0/1 </small></p>
+
+                <label for="event_im">First Harmful Event</label><br>
+
+                 <!--  CRSS Codes: Dropdowns-->
+                <select name="event_im" class="event_im">
+                        <option>1 Rollover/Overturn</option>
+                        <option>2 Fire/Explosion</option>
+                        <option>3 Immersion or Partial Immersion</option>
+                         <option>5 Fell/Jumped from Vehicle</option>
+                         <option>6 Injured in Vehicle (Non-Collision)</option>
+                         <option>7 Other Noncollision</option>
+                         <option>8 Pedestrian</option>
+                         <option>9 Pedalcyclist</option>
+                         <option>10 Railway Vehicle</option>
+                         <option>11 Live Animal</option>
+                         <option>12 Motor Vehicle In-Transport</option>
+                         <option>14 Parked Motor Vehicle</option>
+                         <option>15 Non-Motorist on Personal Conveyance</option>
+                         <option>16 Thrown or Falling Object</option>
+                         <option>17 Boulder</option>
+                         <option>18 Other Object Not Fixed</option>
+                         <option>19 Building</option>
+                         <option>20 Impact Attenuator/Crash Cushion</option>
+                         <option>21 Bridge Pier or Support</option>
+                         <option>23 Bridge Rail (Includes Parapet)</option>
+                         <option>24 Guardrail Face</option>
+                         <option>25 Concrete Traffic Barrier</option>
+                         <option>26 Other Traffic Barrier</option>
+                         <option>30 Utility Pole/Light Support</option>
+                         <option>31 Post, Pole or Other Support</option>
+                         <option>32 Culvert</option>
+                         <option>33 Curb</option>
+                         <option>34 Ditch</option>
+                         <option>35 Embankment</option>
+                         <option>38 Fence</option>
+                         <option>39 Wall</option>
+                         <option>40 Fire Hydrant</option>
+                         <option>41 Shrubbery</option>
+                         <option>42 Tree (Standing Only)</option>
+                         <option>43 Other Fixed Object</option>
+                         <option>44 Pavement Surface Irregularity (Ruts, Potholes, Grates, etc.)</option>
+                         <option>45 Working Motor Vehicle</option>
+                         <option>46 Traffic Signal Support</option>
+                         <option>48 Snow Bank</option>
+                         <option>49 Ridden Animal or Animal Drawn Conveyance</option>
+                         <option>50 Bridge Overhead Structure</option>
+                         <option>51 Jackknife (Harmful to This Vehicle)</option>
+                         <option>52 Guardrail End</option>
+                         <option>53 Mail Box</option>
+                         <option>54 Motor Vehicle In-Transport Strikes or is Struck by Cargo, Persons</option>
+                         <option>55 Motor Vehicle in Motion Outside the Trafficway</option>
+                         <option>58 Ground</option>
+                         <option>59 Traffic Sign Support</option>
+                         <option>72 Cargo/Equipment Loss or Shift (Harmful to This Vehicle)</option>
+                         <option>73 Object That Had Fallen From Motor Vehicle In-Transport</option>
+                         <option>74 Road Vehicle on Rails</option>
+                         <option>91 Unknown Object Not Fixed</option>
+                         <option>93 Unknown Fixed Object</option>
+                </select>
+
+                <p><small>Factors from Accident File = 0/1 </small></p>
+
+              <!--  Region  -->
+                <label for="region">Region</label><br>
+                <select name="region" class="region">
+                    <option>1 Northeast (PA, NJ, NY, NH, VT, RI, MA, ME, CT)</option>
+                    <option>2 Midwest (OH, IN, IL, MI, WI, MN, ND, SD, NE, IA, MO, KS)</option>
+                    <option>3 South (MD, DE, DC, WV, VA, KY, TN, NC, SC, GA, FL, AL, MS, LA, AR, OK, TX)</option>
+                    <option>4 West (MT, ID, WA, OR, CA, NV, NM, AZ, UT, CO, WY, AK, HI)</option>
+                </select><br>
+
+                <p><small>US Region</small></p>
+
+                    </div>
+
+                     </div>
+
+    				 	<div class="col-lg-6">
+
+
+						</div>
+
+						<div class="col-lg-6">
+              <div class="row">
+							<div class="col-lg-6 mx-auto">
+							<br>
+
+                <!-- Accident Factors -->
+
+                <select name="month" class="month">
+                    <option>Jan</option>
+                    <option>Feb</option>
+                    <option>Mar</option>
+                    <option>Apr</option>
+                     <option>May</option>
+                     <option>Jun</option>
+                     <option>Jul</option>
+                     <option>Aug</option>
+                     <option>Sep</option>
+                     <option>Oct</option>
+                     <option>Nov</option>
+                     <option>Dec</option>
+                </select>
+
+                <label for="month">Month</label><br>
+                <p><small>Month</small></p>
+
+
+
+                <!-- Intersection Dropdown-->
+                <select name="type_int" class="type_int">
+                    <option>1 Not an Intersection</option>
+                    <option>2 Four-Way Intersection</option>
+                    <option>3 T-Intersection</option>
+                    <option>4 Y-Intersection</option>
+                    <option>5 Traffic Circle</option>
+                    <option>6 Roundabout</option>
+                    <option>7 Five-Point, or More</option>
+                    <option>10 L-Intersection</option>
+                </select>
+						    <label for="type_int">Intersection Type</label><br>
+                <p><small>Intersection type</small></p>
+
+                <!--  Rel Road -->
+                <select name="rel_road" class="rel_road">
+                    <option>1 On Roadway</option>
+                    <option>2 On Shoulder</option>
+                    <option>3 On Median</option>
+                    <option>4 On Roadside</option>
+                    <option>5 Outside Trafficway</option>
+                    <option>6 Off Roadway – Loc Unkn.</option>
+                    <option>7 In Parking Lane/Zone</option>
+                    <option>8 Gore</option>
+                    <option>10 Separator</option>
+                    <option>11 Cont. Left Turn Lane</option>
+                </select>
+						    <label for="rel_road">Relation to Roadway</label><br>
+                <p><small>Where on the road</small></p>
+
+
+            <!--  Alcohol  -->
+                <select name="alchl_im" class="alchl_im">
+                    <option>1 Alcohol Involved</option>
+                    <option>2 No Alcohol Involved</option>
+                </select><br>
+                        <label for="alchl_im">Alcohol</label><br>
+                        <p><small>Alcohol Involved</small></p>
+
+            <!--  UrbanCity  -->
+                <select name="urbancity" class="urbancity">
+                    <option>1 Urban</option>
+                    <option>2 Rural</option>
+                </select><br>
+                        <label for="urbancity">Urban/City</label><br>
+                        <p><small>City or rural?</small></p>
+
+
+            </div>
+
+                <div class="col-lg-6 mx-auto">
+                  <br>
+
+                  <!--  Day of the Week-->
+                <select name="day_of_the_week" class="day_of_the_week">
+                    <option>Sun</option>
+                    <option>Mon</option>
+                    <option>Tue</option>
+                    <option>Wed</option>
+                    <option>Thur</option>
+                    <option>Fri</option>
+                    <option>Sat</option>
+                </select>
+  						    <label for="day_of_the_week">Day of the Week</label><br>
+                  <p><small>Day of Week</small></p>
+
+                  <!--  Lighting -->
+                  <select name="lighting" class="lighting">
+                    <option>1 Daylight</option>
+                    <option>2 Dark – Not Lighted</option>
+                    <option>3 Dark – Lighted</option>
+                    <option>4 Dawn</option>
+                    <option>5 Dusk</option>
+                    <option>6 Dark – Unknown Lighting</option>
+                    <option>7 Other</option>
+                  </select>
+  						    <label for="lighting">Lighting Conditions</label>
+  						    <p><small>From Accident File </small></p>
+
+
+                  <!--  Work Zone -->
+                  <select name="wrk_zone" class="wrk_zone">
+                    <option>0 None</option>
+                    <option>1 Construction</option>
+                    <option>2 Maintenance</option>
+                    <option>3 Utility</option>
+                  </select><br>
+                    <label for="wrk_zone">Work Zone</label>
+                  <p><small>Choose work zone</small></p>
+
+                  <select name="weather_im" class="weather_im">
+                    <option>1 Clear</option>
+                    <option>2 Rain</option>
+                    <option>3 Sleet or Hail</option>
+                    <option>4 Snow</option>
+                    <option>5 Fog, Smog, Smoke</option>
+                    <option>6 Severe Crosswinds</option>
+                    <option>7 Blowing Sand, Soil, Dirt</option>
+                    <option>8 Other</option>
+                    <option>10 Cloudy</option>
+                    <option>11 Blowing Snow</option>
+                    <option>12 Freezing Rain or Drizzle</option>
+                  </select>
+  						    <label for="weather_im">Weather</label><br>
+                  <p><small>Atmospheric Conditions</small></p>
+
+
+                <select name="old_car" class="old_car">
+                    <option>No</option>
+                    <option>Yes</option>
+                  </select>
+  						    <label for="old_car">Older Car</label><br>
+                  <p><small>Model Year < 2011</small></p>
+
+                </div>
+
+						</div>
+          </div>
+          <!-- End of Part 2.1-->
+
+  					</div>
+    			</div>
+    		</form>
+    	</div>
+    </div>
+</section>
+
+{% endblock %}

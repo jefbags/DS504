@@ -1,0 +1,7 @@
+env
+.env
+.idea/
+.idea
+.DS_Store
+virenv
+__pycache__
