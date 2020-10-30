@@ -1,6 +1,7 @@
 import joblib
 from utils import *
 from flask import Flask, render_template, request
+import sklearn
 
 # Init Flask
 application = Flask(__name__)
