@@ -12,38 +12,6 @@ def onehotCategorical(req, limit):
 
 #def switcher(count, values):
 
-
-def switch_month(month):
-    switcher = {
-        "Jan": 1,
-        "Feb": 2,
-        "Mar": 3,
-        "Apr": 4,
-        "May": 5,
-        "Jun": 6,
-        "Jul": 7,
-        "Aug": 8,
-        "Sep": 9,
-        "Oct": 10,
-        "Nov": 11,
-        "Dec": 12
-    }
-    return switcher.get(month)
-
-
-def switch_week(i):
-        switcher = {
-            'Sun': 1,
-            'Mon': 2,
-            'Tue': 3,
-            'Wed': 4,
-            'Thur': 5,
-            'Fri': 6,
-            'Sat': 7
-        }
-        return switcher.get(i)
-
-
 def switch_crash_related(i):
     switcher = {
         '3 Other Maintenance or Construction-Created Condition': 1,

@@ -1,34 +1,10 @@
-#!/usr/bin/env python3
-
-# Imports
-import json
-import os
-
-from typing import List, Any
-
-import flask
-from flask import Flask, request, render_template
 import joblib
-import numpy as np
 from utils import *
-
-from flask import Flask, jsonify, render_template
+from flask import Flask, render_template, request
 
 # Init Flask
 application = Flask(__name__)
 application.secret_key = 'very-secret-key'
-
-
-# Cache control -
-# No caching at all for API endpoints.
-@application.after_request
-def add_header(r):
-    r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    r.headers["Pragma"] = "no-cache"
-    r.headers["Expires"] = "0"
-    r.headers['Cache-Control'] = 'public, max-age=0'
-    return r
-
 
 # GET '/'
 @application.route('/')
@@ -37,22 +13,12 @@ def index():
     # Render
     return render_template('index.html', title='CarSafetyApp')
 
-
 # model = joblib.load('rm.pkl')
 
 @application.route('/predict', methods=['POST'])
 def make_prediction():
     if request.method == 'POST':
         # get request values
-
-        # Need Switch
-        MONTH = request.form['month']
-        # print (MONTH)
-        MONTH = switch_month(MONTH)
-        # print (MONTH)
-
-        WKDY_IM = request.form['day_of_the_week']
-        WKDY_IM = switch_week(WKDY_IM)
 
         OLD_CAR = request.form['old_car']
         OLD_CAR = switch_older_car(OLD_CAR)
@@ -69,64 +35,6 @@ def make_prediction():
         LGTCON_IM = switch_lighting(LGTCON_IM)
         LGTCON_IM_1, LGTCON_IM_2, LGTCON_IM_3, LGTCON_IM_4, LGTCON_IM_5, LGTCON_IM_6, LGTCON_IM_7 = onehotCategorical(
             LGTCON_IM, 7)
-
-        EVENT_IM_LIST = ['1 Rollover/Overturn',
-                         '2 Fire/Explosion',
-                         '3 Immersion or Partial Immersion',
-                         '5 Fell/Jumped from Vehicle',
-                         '6 Injured in Vehicle (Non-Collision)',
-                         '7 Other Noncollision',
-                         '8 Pedestrian',
-                         '9 Pedalcyclist',
-                         '10 Railway Vehicle',
-                         '11 Live Animal',
-                         '12 Motor Vehicle In-Transport',
-                         '14 Parked Motor Vehicle',
-                         '15 Non-Motorist on Personal Conveyance',
-                         '16 Thrown or Falling Object',
-                         '17 Boulder',
-                         '18 Other Object Not Fixed',
-                         '19 Building',
-                         '20 Impact Attenuator/Crash Cushion',
-                         '21 Bridge Pier or Support',
-                         '23 Bridge Rail (Includes Parapet)',
-                         '24 Guardrail Face',
-                         '25 Concrete Traffic Barrier',
-                         '26 Other Traffic Barrier',
-                         '30 Utility Pole/Light Support',
-                         '31 Post, Pole or Other Support',
-                         '32 Culvert',
-                         '33 Curb',
-                         '34 Ditch',
-                         '35 Embankment',
-                         '38 Fence',
-                         '39 Wall',
-                         '40 Fire Hydrant',
-                         '41 Shrubbery',
-                         '42 Tree (Standing Only)',
-                         '43 Other Fixed Object',
-                         '44 Pavement Surface Irregularity (Ruts, Potholes, Grates, etc.)',
-                         '45 Working Motor Vehicle',
-                         '46 Traffic Signal Support',
-                         '48 Snow Bank',
-                         '49 Ridden Animal or Animal Drawn Conveyance',
-                         '50 Bridge Overhead Structure',
-                         '51 Jackknife (Harmful to This Vehicle)',
-                         '52 Guardrail End',
-                         '53 Mail Box',
-                         '54 Motor Vehicle In-Transport Strikes or is Struck by Cargo, Persons',
-                         '55 Motor Vehicle in Motion Outside the Trafficway',
-                         '58 Ground',
-                         '59 Traffic Sign Support',
-                         '72 Cargo/Equipment Loss or Shift (Harmful to This Vehicle)',
-                         '73 Object That Had Fallen From Motor Vehicle In-Transport',
-                         '74 Road Vehicle on Rails',
-                         '91 Unknown Object Not Fixed',
-                         '93 Unknown Fixed Object']
-        list_len = len(EVENT_IM_LIST)
-        EVENT_IM = EVENT_IM_LIST.index(request.form['event_im'])
-        EVENT1_IM_1, EVENT1_IM_2, EVENT1_IM_3, EVENT1_IM_5, EVENT1_IM_6, EVENT1_IM_7, EVENT1_IM_8, EVENT1_IM_9, EVENT1_IM_10, EVENT1_IM_11, EVENT1_IM_12, EVENT1_IM_14, EVENT1_IM_15, EVENT1_IM_16, EVENT1_IM_17, EVENT1_IM_18, EVENT1_IM_19, EVENT1_IM_20, EVENT1_IM_21, EVENT1_IM_23, EVENT1_IM_24, EVENT1_IM_25, EVENT1_IM_26, EVENT1_IM_30, EVENT1_IM_31, EVENT1_IM_32, EVENT1_IM_33, EVENT1_IM_34, EVENT1_IM_35, EVENT1_IM_38, EVENT1_IM_39, EVENT1_IM_40, EVENT1_IM_41, EVENT1_IM_42, EVENT1_IM_43, EVENT1_IM_44, EVENT1_IM_45, EVENT1_IM_46, EVENT1_IM_48, EVENT1_IM_49, EVENT1_IM_50, EVENT1_IM_51, EVENT1_IM_52, EVENT1_IM_53, EVENT1_IM_54, EVENT1_IM_55, EVENT1_IM_58, EVENT1_IM_59, EVENT1_IM_72, EVENT1_IM_73, EVENT1_IM_74, EVENT1_IM_91, EVENT1_IM_93 = onehotCategorical(
-            EVENT_IM, list_len)
 
         TYPE_INT_LIST = ['1 Not an Intersection',
                          '2 Four-Way Intersection',
@@ -185,14 +93,6 @@ def make_prediction():
         ALCHL_IM = ALCHL_IM_LIST.index(request.form['alchl_im'])
         list_len = len(ALCHL_IM_LIST)
         ALCHL_IM_1, ALCHL_IM_2 = onehotCategorical(ALCHL_IM, list_len)
-
-        REGION_LIST = ['1 Northeast (PA, NJ, NY, NH, VT, RI, MA, ME, CT)',
-                       '2 Midwest (OH, IN, IL, MI, WI, MN, ND, SD, NE, IA, MO, KS)',
-                       '3 South (MD, DE, DC, WV, VA, KY, TN, NC, SC, GA, FL, AL, MS, LA, AR, OK, TX)',
-                       '4 West (MT, ID, WA, OR, CA, NV, NM, AZ, UT, CO, WY, AK, HI)']
-        REGION = REGION_LIST.index(request.form['region'])
-        list_len = len(REGION_LIST)
-        REGION_1, REGION_2, REGION_3, REGION_4 = onehotCategorical(REGION, list_len)
 
         URBANICITY_LIST = ['1 Urban', '2 Rural']
         URBANICITY = URBANICITY_LIST.index(request.form['urbancity'])
@@ -324,18 +224,6 @@ def make_prediction():
         IMPAIRED_NONE, IMPAIRED_BLACKOUT, IMPAIRED_ASLEEP, IMPAIRED_CANE, IMPAIRED_PARAPALEGIC, IMPAIRED_PREINJ, IMPAIRED_DEAF, IMPAIRED_BLIND, IMPAIRED_EMOTIONAL, IMPAIRED_DUI, IMPAIRED_PHY_UNK, IMPAIRED_NO_DRIVER, IMPAIRED_OTHER = onehotCategorical(
             IMPAIRED, len(IMPAIRED_LIST))
 
-        AGE_LIST = ['Under age 16',
-                    'Between 16-24 yrs old',
-                    'Between 24-54 yrs old',
-                    'Older than 55']
-        AGE = AGE_LIST.index(request.form['age'])
-        age_L16, age_16_24, age_25_54, age_G55 = onehotCategorical(AGE, len(AGE_LIST))
-
-        SEX_LIST = ['1 Male',
-                    '2 Female']
-        SEX = SEX_LIST.index(request.form['sex'])
-        SEX_IM_1, SEX_IM_2 = onehotCategorical(SEX, len(SEX_LIST))
-
         REST_USE_LIST = ['0 Not Applicable',
                          '1 Shoulder Belt Only Used',
                          '2 Lap Belt Only Used',
@@ -419,22 +307,14 @@ def make_prediction():
         comp_dist = 5458.1
 
         # build 1 observation for prediction
-        entered_li = [MONTH, WKDY_IM, CF_3, CF_5, CF_7, CF_13, CF_14, CF_15, CF_16, CF_17, CF_19, CF_20, CF_21, CF_23,
+        entered_li = [CF_3, CF_5, CF_7, CF_13, CF_14, CF_15, CF_16, CF_17, CF_19, CF_20, CF_21, CF_23,
                       CF_24, CF_25, CF_26, CF_27, CF_28, LGTCON_IM_1, LGTCON_IM_2, LGTCON_IM_3, LGTCON_IM_4,
-                      LGTCON_IM_5, LGTCON_IM_6, LGTCON_IM_7, EVENT1_IM_1, EVENT1_IM_2, EVENT1_IM_3, EVENT1_IM_5,
-                      EVENT1_IM_6, EVENT1_IM_7, EVENT1_IM_8, EVENT1_IM_9, EVENT1_IM_10, EVENT1_IM_11, EVENT1_IM_12,
-                      EVENT1_IM_14, EVENT1_IM_15, EVENT1_IM_16, EVENT1_IM_17, EVENT1_IM_18, EVENT1_IM_19, EVENT1_IM_20,
-                      EVENT1_IM_21, EVENT1_IM_23, EVENT1_IM_24, EVENT1_IM_25, EVENT1_IM_26, EVENT1_IM_30, EVENT1_IM_31,
-                      EVENT1_IM_32, EVENT1_IM_33, EVENT1_IM_34, EVENT1_IM_35, EVENT1_IM_38, EVENT1_IM_39, EVENT1_IM_40,
-                      EVENT1_IM_41, EVENT1_IM_42, EVENT1_IM_43, EVENT1_IM_44, EVENT1_IM_45, EVENT1_IM_46, EVENT1_IM_48,
-                      EVENT1_IM_49, EVENT1_IM_50, EVENT1_IM_51, EVENT1_IM_52, EVENT1_IM_53, EVENT1_IM_54, EVENT1_IM_55,
-                      EVENT1_IM_58, EVENT1_IM_59, EVENT1_IM_72, EVENT1_IM_73, EVENT1_IM_74, EVENT1_IM_91, EVENT1_IM_93,
+                      LGTCON_IM_5, LGTCON_IM_6, LGTCON_IM_7,
                       TYP_INT_1, TYP_INT_2, TYP_INT_3, TYP_INT_4, TYP_INT_5, TYP_INT_6, TYP_INT_7, TYP_INT_10,
                       REL_ROAD_1, REL_ROAD_2, REL_ROAD_3, REL_ROAD_4, REL_ROAD_5, REL_ROAD_6, REL_ROAD_7, REL_ROAD_8,
                       REL_ROAD_10, REL_ROAD_11, WRK_ZONE_0, WRK_ZONE_1, WRK_ZONE_2, WRK_ZONE_3, WEATHR_IM_1,
                       WEATHR_IM_2, WEATHR_IM_3, WEATHR_IM_4, WEATHR_IM_5, WEATHR_IM_6, WEATHR_IM_7, WEATHR_IM_8,
-                      WEATHR_IM_10, WEATHR_IM_11, WEATHR_IM_12, ALCHL_IM_1, ALCHL_IM_2, REGION_1, REGION_2, REGION_3,
-                      REGION_4, URBANICITY_1, URBANICITY_2, OLD_CAR, SPD_L30MPH, SPD_30_65MPH, SPD_G65MPH, BDYTYP_IM_1,
+                      WEATHR_IM_10, WEATHR_IM_11, WEATHR_IM_12, ALCHL_IM_1, ALCHL_IM_2, URBANICITY_1, URBANICITY_2, OLD_CAR, SPD_L30MPH, SPD_30_65MPH, SPD_G65MPH, BDYTYP_IM_1,
                       BDYTYP_IM_2, BDYTYP_IM_3, BDYTYP_IM_4, BDYTYP_IM_5, BDYTYP_IM_6, BDYTYP_IM_7, BDYTYP_IM_8,
                       BDYTYP_IM_9, BDYTYP_IM_10, BDYTYP_IM_11, BDYTYP_IM_12, BDYTYP_IM_13, BDYTYP_IM_14, BDYTYP_IM_15,
                       BDYTYP_IM_16, BDYTYP_IM_17, BDYTYP_IM_19, BDYTYP_IM_20, BDYTYP_IM_21, BDYTYP_IM_22, BDYTYP_IM_28,
@@ -445,7 +325,7 @@ def make_prediction():
                       BDYTYP_IM_78, BDYTYP_IM_80, BDYTYP_IM_81, BDYTYP_IM_82, BDYTYP_IM_83, BDYTYP_IM_84, BDYTYP_IM_85,
                       BDYTYP_IM_86, BDYTYP_IM_87, BDYTYP_IM_88, BDYTYP_IM_89, BDYTYP_IM_90, BDYTYP_IM_91, BDYTYP_IM_92,
                       BDYTYP_IM_93, BDYTYP_IM_94, BDYTYP_IM_95, BDYTYP_IM_96, BDYTYP_IM_97, SPEEDREL_0, SPEEDREL_2,
-                      SPEEDREL_3, SPEEDREL_4, SPEEDREL_5, VALIGN_0, VALIGN_1, VALIGN_2, VALIGN_3, VALIGN_4, VPROFILE_1,
+                      SPEEDREL_3, SPEEDREL_4, SPEEDREL_5, VALIGN_0, VALIGN_1, VALIGN_2, VALIGN_3, VALIGN_4, VPROFILE_0, VPROFILE_1,
                       VPROFILE_2, VPROFILE_3, VPROFILE_4, VPROFILE_5, VPROFILE_6, VSURCOND_0, VSURCOND_1, VSURCOND_2,
                       VSURCOND_3, VSURCOND_4, VSURCOND_5, VSURCOND_6, VSURCOND_7, VSURCOND_8, VSURCOND_10, VSURCOND_11,
                       PCRASH1_IM_0, PCRASH1_IM_1, PCRASH1_IM_2, PCRASH1_IM_3, PCRASH1_IM_4, PCRASH1_IM_5, PCRASH1_IM_6,
@@ -455,8 +335,7 @@ def make_prediction():
                       DR_SF_32, DR_SF_36, DR_SF_37, DR_SF_50, DR_SF_51, DR_SF_54, DR_SF_55, DR_SF_56, DR_SF_57,
                       DR_SF_58, DR_SF_59, DR_SF_60, DR_SF_91, IMPAIRED_NONE, IMPAIRED_BLACKOUT, IMPAIRED_ASLEEP,
                       IMPAIRED_CANE, IMPAIRED_PARAPALEGIC, IMPAIRED_PREINJ, IMPAIRED_DEAF, IMPAIRED_BLIND,
-                      IMPAIRED_EMOTIONAL, IMPAIRED_DUI, IMPAIRED_PHY_UNK, IMPAIRED_NO_DRIVER, IMPAIRED_OTHER, age_L16,
-                      age_16_24, age_25_54, age_G55, SEX_IM_1, SEX_IM_2, REST_USE_0, REST_USE_1, REST_USE_2, REST_USE_3,
+                      IMPAIRED_EMOTIONAL, IMPAIRED_DUI, IMPAIRED_PHY_UNK, IMPAIRED_NO_DRIVER, IMPAIRED_OTHER, REST_USE_0, REST_USE_1, REST_USE_2, REST_USE_3,
                       REST_USE_4, REST_USE_5, REST_USE_7, REST_USE_8, REST_USE_10, REST_USE_11, REST_USE_12,
                       REST_USE_16, REST_USE_17, REST_USE_19, REST_USE_20, REST_USE_29, REST_USE_96, REST_USE_97,
                       REST_MIS_0, REST_MIS_1, DRUGS_0, DRUGS_1, MFACTOR_0, MFACTOR_1, MFACTOR_2, MFACTOR_3, MFACTOR_4,
@@ -472,12 +351,16 @@ def make_prediction():
         # make prediction
 
         # CORRECT
-        # prediction = model.predict(np.array(entered_li).reshape(1, -1))
-        # label = str(np.squeeze(prediction.round(2)))
+        model = joblib.load('gb.pkl')
+        prediction = model.predict(np.array(entered_li).reshape(1, -1))
+        #label = str(np.squeeze(prediction.round(2)))
 
-        # EXPEDITIOUS
-        prediction = 5992.9999
-        label = str(prediction)
+        if prediction == 0:
+            #print("ok")
+            label = "NO: A severe accident is unlikely based on the factors presented."
+        else:
+            label = "YES: A severe accident is likely  based on the factors presented."
+
 
         return render_template('index.html', label=label)
 
@@ -485,7 +368,7 @@ def make_prediction():
 if __name__ == "__main__":
     application.run(load_dotenv=True, use_reloader=True)
 
-    # model = joblib.load('rm.pkl')
+    model = joblib.load('gb.pkl')
 # run the app.
 
 

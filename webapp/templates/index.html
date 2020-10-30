@@ -10,17 +10,17 @@
 
                                 <h1>Accident Safety Predictor</h1>
 
-    				 		<p> This project will predict the liklihood of a severe car accident given a variety of factors. The accuracy of prediction is approximately 80%.  Please enter the circumstances on the right, and click on the "Predict" button.
+    				 		<p> This project will predict the liklihood of a severe car accident given a variety of factors. The accuracy of prediction is approximately 80%.  Please enter the circumstances below, and click on the "Predict" button.
                             </p>
 
-    				 		<h1>
-							  {% if label %} {{ label }} {% endif %}
-							</h1>
+                          <h2>
+                          <p class="text-primary">
+							  {% if label %}
+                                  {{ label }}
+                              {% endif %}
+                          </p>
+							</h2>
 
-							  <br>
-							  <button class="btn btn-lg btn-primary" type="submit">
-							  	Predict
-							  </button>
 
                             </div>
 
@@ -55,78 +55,6 @@
                 </select>
 
                 <p><small>Factors from Accident File = 0/1 </small></p>
-
-                <label for="event_im">First Harmful Event</label><br>
-
-                 <!--  CRSS Codes: Dropdowns-->
-                <select name="event_im" class="event_im">
-                        <option>1 Rollover/Overturn</option>
-                        <option>2 Fire/Explosion</option>
-                        <option>3 Immersion or Partial Immersion</option>
-                         <option>5 Fell/Jumped from Vehicle</option>
-                         <option>6 Injured in Vehicle (Non-Collision)</option>
-                         <option>7 Other Noncollision</option>
-                         <option>8 Pedestrian</option>
-                         <option>9 Pedalcyclist</option>
-                         <option>10 Railway Vehicle</option>
-                         <option>11 Live Animal</option>
-                         <option>12 Motor Vehicle In-Transport</option>
-                         <option>14 Parked Motor Vehicle</option>
-                         <option>15 Non-Motorist on Personal Conveyance</option>
-                         <option>16 Thrown or Falling Object</option>
-                         <option>17 Boulder</option>
-                         <option>18 Other Object Not Fixed</option>
-                         <option>19 Building</option>
-                         <option>20 Impact Attenuator/Crash Cushion</option>
-                         <option>21 Bridge Pier or Support</option>
-                         <option>23 Bridge Rail (Includes Parapet)</option>
-                         <option>24 Guardrail Face</option>
-                         <option>25 Concrete Traffic Barrier</option>
-                         <option>26 Other Traffic Barrier</option>
-                         <option>30 Utility Pole/Light Support</option>
-                         <option>31 Post, Pole or Other Support</option>
-                         <option>32 Culvert</option>
-                         <option>33 Curb</option>
-                         <option>34 Ditch</option>
-                         <option>35 Embankment</option>
-                         <option>38 Fence</option>
-                         <option>39 Wall</option>
-                         <option>40 Fire Hydrant</option>
-                         <option>41 Shrubbery</option>
-                         <option>42 Tree (Standing Only)</option>
-                         <option>43 Other Fixed Object</option>
-                         <option>44 Pavement Surface Irregularity (Ruts, Potholes, Grates, etc.)</option>
-                         <option>45 Working Motor Vehicle</option>
-                         <option>46 Traffic Signal Support</option>
-                         <option>48 Snow Bank</option>
-                         <option>49 Ridden Animal or Animal Drawn Conveyance</option>
-                         <option>50 Bridge Overhead Structure</option>
-                         <option>51 Jackknife (Harmful to This Vehicle)</option>
-                         <option>52 Guardrail End</option>
-                         <option>53 Mail Box</option>
-                         <option>54 Motor Vehicle In-Transport Strikes or is Struck by Cargo, Persons</option>
-                         <option>55 Motor Vehicle in Motion Outside the Trafficway</option>
-                         <option>58 Ground</option>
-                         <option>59 Traffic Sign Support</option>
-                         <option>72 Cargo/Equipment Loss or Shift (Harmful to This Vehicle)</option>
-                         <option>73 Object That Had Fallen From Motor Vehicle In-Transport</option>
-                         <option>74 Road Vehicle on Rails</option>
-                         <option>91 Unknown Object Not Fixed</option>
-                         <option>93 Unknown Fixed Object</option>
-                </select>
-
-                <p><small>Factors from Accident File = 0/1 </small></p>
-
-              <!--  Region  -->
-                <label for="region">Region</label><br>
-                <select name="region" class="region">
-                    <option>1 Northeast (PA, NJ, NY, NH, VT, RI, MA, ME, CT)</option>
-                    <option>2 Midwest (OH, IN, IL, MI, WI, MN, ND, SD, NE, IA, MO, KS)</option>
-                    <option>3 South (MD, DE, DC, WV, VA, KY, TN, NC, SC, GA, FL, AL, MS, LA, AR, OK, TX)</option>
-                    <option>4 West (MT, ID, WA, OR, CA, NV, NM, AZ, UT, CO, WY, AK, HI)</option>
-                </select><br>
-
-                <p><small>US Region</small></p>
 
 
               <!--  Body Type  -->
@@ -263,37 +191,11 @@
 
                      </div>
 
-    				 	<div class="col-lg-6">
-
-
-						</div>
-
-						<div class="col-lg-6">
               <div class="row">
-							<div class="col-lg-6 mx-auto">
+                <div class="col mx-auto">
 							<br>
 
                 <!-- Accident Factors -->
-
-                <select name="month" class="month">
-                    <option>Jan</option>
-                    <option>Feb</option>
-                    <option>Mar</option>
-                    <option>Apr</option>
-                     <option>May</option>
-                     <option>Jun</option>
-                     <option>Jul</option>
-                     <option>Aug</option>
-                     <option>Sep</option>
-                     <option>Oct</option>
-                     <option>Nov</option>
-                     <option>Dec</option>
-                </select>
-
-                <label for="month">Month</label><br>
-                <p><small>Month</small></p>
-
-
 
                 <!-- Intersection Dropdown-->
                 <select name="type_int" class="type_int">
@@ -383,24 +285,6 @@
                         <label for="vsurcond">Surface Conditions</label><br>
                         <p><small>Road Surface Conditions</small></p>
 
-            <!-- Age  -->
-                <select name="age" class="age">
-                    <option>Under age 16</option>
-                    <option>Between 16-24 yrs old</option>
-                    <option>Between 24-54 yrs old</option>
-                    <option>Older than 55</option>
-                </select><br>
-                        <label for="age">Driver Age</label><br>
-                        <p><small>Select the Driver's Age</small></p>
-
-             <!-- Sex  -->
-                <select name="sex" class="sex">
-                    <option>1 Male</option>
-                    <option>2 Female</option>
-                </select><br>
-                        <label for="sex">Driver Sex</label><br>
-                        <p><small>Select the Driver's Sex</small></p>
-
              <!-- Drugs  -->
                 <select name="drugs" class="drugs">
                     <option>No (Drugs Not Involved)</option>
@@ -411,21 +295,8 @@
                                 
             </div>
 
-                <div class="col-lg-6 mx-auto">
+                <div class="col mx-auto">
                   <br>
-
-                  <!--  Day of the Week-->
-                <select name="day_of_the_week" class="day_of_the_week">
-                    <option>Sun</option>
-                    <option>Mon</option>
-                    <option>Tue</option>
-                    <option>Wed</option>
-                    <option>Thur</option>
-                    <option>Fri</option>
-                    <option>Sat</option>
-                </select>
-  						    <label for="day_of_the_week">Day of the Week</label><br>
-                  <p><small>Day of Week</small></p>
 
                   <!--  Lighting -->
                   <select name="lighting" class="lighting">
@@ -611,7 +482,7 @@
 
             <!--  Driver Distractions  -->
                 <select name="mdrdstrd" class="mdrdstrd">
-                    
+
                     <option>0 Not Distracted</option>
                     <option>1 Looked But Did Not See</option>
                     <option>3 By Other Occupants</option>
@@ -640,9 +511,19 @@
 
                 </div>
 
+                  <div class="col mx-auto">
+
+							  <br>
+                      Click here to predict!
+							  <button class="btn btn-lg btn-primary" type="submit">
+							  	Predict
+							  </button>
+                  </div>
+
+
+                  </div>
+
 						</div>
-          </div>
-          <!-- End of Part 2.1-->
 
   					</div>
     			</div>
